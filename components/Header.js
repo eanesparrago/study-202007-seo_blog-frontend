@@ -25,7 +25,7 @@ const Header = (props) => {
     <div>
       <Navbar color="light" light expand="md">
         <Link href="/">
-          <NavbarBrand className="font-weight-bold">{APP_NAME}</NavbarBrand>
+          <a className="font-weight-bold">{APP_NAME}</a>
         </Link>
 
         <NavbarToggler onClick={toggle} />
