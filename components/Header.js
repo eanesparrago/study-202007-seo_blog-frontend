@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
+import Router from "next/router";
 import {
   Collapse,
   Navbar,
@@ -15,6 +16,7 @@ import {
   NavbarText,
 } from "reactstrap";
 import { APP_NAME } from "../config";
+import { isAuth, signout } from "../actions/auth";
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,17 +34,32 @@ const Header = (props) => {
 
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <NavItem>
-              <Link href="/signin">
-                <NavLink>Sign In</NavLink>
-              </Link>
-            </NavItem>
+            {!isAuth() && (
+              <>
+                <NavItem>
+                  <Link href="/signin">
+                    <NavLink>Sign In</NavLink>
+                  </Link>
+                </NavItem>
 
-            <NavItem>
-              <Link href="/signup">
-                <NavLink>Sign Up</NavLink>
-              </Link>
-            </NavItem>
+                <NavItem>
+                  <Link href="/signup">
+                    <NavLink>Sign Up</NavLink>
+                  </Link>
+                </NavItem>
+              </>
+            )}
+
+            {isAuth() && (
+              <NavItem>
+                <NavLink
+                  style={{ cursor: "pointer" }}
+                  onClick={() => signout(() => Router.replace(`/signin`))}
+                >
+                  Sign Out
+                </NavLink>
+              </NavItem>
+            )}
           </Nav>
         </Collapse>
       </Navbar>

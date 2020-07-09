@@ -29,7 +29,25 @@ export const signin = (user) => {
     .then((response) => {
       return response.json();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const signout = (next) => {
+  removeCookie("token");
+  removeLocalStorage("user");
+  next();
+
+  return fetch(`${API}/signout`, {
+    method: "GET",
+  })
+    .then((response) => {
+      console.log("Signout success");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 // Set cookie
@@ -52,7 +70,7 @@ export const removeCookie = (key) => {
 // Get cookie
 export const getCookie = (key) => {
   if (process.browser) {
-    cookie.get(key);
+    return cookie.get(key);
   }
 };
 
