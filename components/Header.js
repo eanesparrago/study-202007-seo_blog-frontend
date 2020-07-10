@@ -15,8 +15,16 @@ import {
   DropdownItem,
   NavbarText,
 } from "reactstrap";
+import NProgress from "nprogress";
+
 import { APP_NAME } from "../config";
 import { isAuth, signout } from "../actions/auth";
+
+Router.onRouteChangeStart = () => {
+  NProgress.start();
+};
+Router.onRouteChangeComplete = () => NProgress.done();
+Router.onRouteChangeError = () => NProgress.done();
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);

@@ -15,6 +15,11 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           />
+
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/nprogress@0.2.0/nprogress.css"
+          />
         </Head>
         <body>
           <Main />
