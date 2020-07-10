@@ -16,6 +16,7 @@ import {
   NavbarText,
 } from "reactstrap";
 import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 import { APP_NAME } from "../config";
 import { isAuth, signout } from "../actions/auth";
