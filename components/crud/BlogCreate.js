@@ -27,6 +27,9 @@ const BlogCreate = ({ router }) => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
 
+  const [checkedCategories, setCheckedCategories] = useState([]);
+  const [checkedTags, setCheckedTags] = useState([]);
+
   const [body, setBody] = useState(blogFromLs());
   const [values, setValues] = useState({
     error: "",
@@ -99,21 +102,47 @@ const BlogCreate = ({ router }) => {
     }
   };
 
+  const handleToggle = (categoryId) => () => {
+    setValues({ ...values, error: "" });
+    const clickedCategory = checkedCategories.indexOf(categoryId);
+    const all = [...checkedCategories];
+
+    if (clickedCategory === -1) {
+      all.push(categoryId);
+    } else {
+      all.splice(clickedCategory, 1);
+    }
+
+    console.log(all);
+
+    setCheckedCategories(all);
+    formData.set("categories", all);
+  };
+
   const showCategories = () =>
     categories &&
-    categories.map((category, i) => (
-      <li className="list-unstyled" key={i}>
-        <input type="checkbox" className="mr-2" />
-        <label className="form-check-label">{category.name}</label>
+    categories.map((category) => (
+      <li className="list-unstyled" key={category._id}>
+        <input
+          onChange={handleToggle(category._id)}
+          type="checkbox"
+          className="mr-2"
+          id={category.slug}
+        />
+        <label className="form-check-label" htmlFor={category.slug}>
+          {category.name}
+        </label>
       </li>
     ));
 
   const showTags = () =>
     tags &&
-    tags.map((tag, i) => (
-      <li className="list-unstyled" key={i}>
-        <input type="checkbox" className="mr-2" />
-        <label className="form-check-label">{tag.name}</label>
+    tags.map((tag) => (
+      <li className="list-unstyled" key={tag._id}>
+        <input id={tag.slug} type="checkbox" className="mr-2" />
+        <label className="form-check-label" htmlFor={tag.slug}>
+          {tag.name}
+        </label>
       </li>
     ));
 
