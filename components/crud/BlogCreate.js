@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Router from "next/router";
@@ -12,7 +13,19 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
 const BlogCreate = ({ router }) => {
-  const [body, setBody] = useState({});
+  const blogFromLs = () => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    if (localStorage.getItem("blog")) {
+      return JSON.parse(localStorage.getItem("blog"));
+    } else {
+      return false;
+    }
+  };
+
+  const [body, setBody] = useState(blogFromLs());
   const [values, setValues] = useState({
     error: "",
     sizeError: "",
@@ -31,16 +44,36 @@ const BlogCreate = ({ router }) => {
     hidePublishButton,
   } = values;
 
+  useEffect(() => {
+    setValues({ ...values, formData: new FormData() });
+  }, [router]);
+
   const publishBlog = (e) => {
     e.preventDefault();
     console.log("Ready to publish blog");
   };
 
-  const handleChange = (e) => {
-    console.log(e.target.value);
+  const handleChange = (name) => (e) => {
+    const value = name === "photo" ? e.target.files[0] : e.target.value;
+
+    formData.set(name, value);
+
+    setValues({
+      ...values,
+      [name]: value,
+      formData,
+      error: "",
+    });
   };
 
-  const handleBody = () => {};
+  const handleBody = (e) => {
+    setBody(e);
+    formData.set("body", e);
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("blog", JSON.stringify(e));
+    }
+  };
 
   const createBlogForm = () => (
     <form onSubmit={publishBlog}>
@@ -51,12 +84,14 @@ const BlogCreate = ({ router }) => {
           className="form-control"
           value={title}
           name="title"
-          onChange={handleChange}
+          onChange={handleChange("title")}
         />
       </div>
 
       <div className="form-group">
         <ReactQuill
+          modules={BlogCreate.modules}
+          formats={BlogCreate.formats}
           value={body}
           placeholder="Write something amazing..."
           onChange={handleBody}
@@ -73,5 +108,33 @@ const BlogCreate = ({ router }) => {
 
   return <div>{createBlogForm()}</div>;
 };
+
+BlogCreate.modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { header: [3, 4, 5, 6] }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    ["link", "image", "video"],
+    ["clean"],
+    ["code-block"],
+  ],
+};
+
+BlogCreate.formats = [
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italc",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "link",
+  "image",
+  "video",
+  "code-block",
+];
 
 export default withRouter(BlogCreate);
