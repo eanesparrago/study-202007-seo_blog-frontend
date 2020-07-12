@@ -49,6 +49,8 @@ const BlogCreate = ({ router }) => {
     hidePublishButton,
   } = values;
 
+  const token = getCookie("token");
+
   useEffect(() => {
     setValues({ ...values, formData: new FormData() });
     initCategories();
@@ -77,7 +79,22 @@ const BlogCreate = ({ router }) => {
 
   const publishBlog = (e) => {
     e.preventDefault();
-    console.log("Ready to publish blog");
+
+    createBlog(formData, token).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          title: "",
+          error: "",
+          success: `A new blog titled "${data.title}" is created`,
+        });
+        setBody("");
+        setCheckedCategories([]);
+        setCheckedTags([]);
+      }
+    });
   };
 
   const handleChange = (name) => (e) => {
@@ -102,13 +119,13 @@ const BlogCreate = ({ router }) => {
     }
   };
 
-  const handleToggle = (categoryId) => () => {
+  const handleCategoryToggle = (tagId) => () => {
     setValues({ ...values, error: "" });
-    const clickedCategory = checkedCategories.indexOf(categoryId);
+    const clickedCategory = checkedCategories.indexOf(tagId);
     const all = [...checkedCategories];
 
     if (clickedCategory === -1) {
-      all.push(categoryId);
+      all.push(tagId);
     } else {
       all.splice(clickedCategory, 1);
     }
@@ -119,12 +136,29 @@ const BlogCreate = ({ router }) => {
     formData.set("categories", all);
   };
 
+  const handleTagToggle = (tagId) => () => {
+    setValues({ ...values, error: "" });
+    const clickedTag = checkedTags.indexOf(tagId);
+    const all = [...checkedTags];
+
+    if (clickedTag === -1) {
+      all.push(tagId);
+    } else {
+      all.splice(clickedTag, 1);
+    }
+
+    console.log(all);
+
+    setCheckedTags(all);
+    formData.set("tags", all);
+  };
+
   const showCategories = () =>
     categories &&
     categories.map((category) => (
       <li className="list-unstyled" key={category._id}>
         <input
-          onChange={handleToggle(category._id)}
+          onChange={handleCategoryToggle(category._id)}
           type="checkbox"
           className="mr-2"
           id={category.slug}
@@ -139,7 +173,12 @@ const BlogCreate = ({ router }) => {
     tags &&
     tags.map((tag) => (
       <li className="list-unstyled" key={tag._id}>
-        <input id={tag.slug} type="checkbox" className="mr-2" />
+        <input
+          onChange={handleTagToggle(tag._id)}
+          id={tag.slug}
+          type="checkbox"
+          className="mr-2"
+        />
         <label className="form-check-label" htmlFor={tag.slug}>
           {tag.name}
         </label>
@@ -193,6 +232,28 @@ const BlogCreate = ({ router }) => {
         </div>
 
         <div className="col-md-4">
+          <div>
+            <div className="form-group pb-2">
+              <h5>Featured image</h5>
+
+              <hr />
+
+              <div>
+                <small className="text-muted">Max size: 1mb</small>
+              </div>
+
+              <label className="btn btn-outline-info">
+                Upload featured image
+                <input
+                  type="file"
+                  accept="image*"
+                  onChange={handleChange("photo")}
+                  hidden
+                />
+              </label>
+            </div>
+          </div>
+
           <div>
             <h5>Categories</h5>
 

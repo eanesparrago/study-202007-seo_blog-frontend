@@ -1,7 +1,7 @@
 import fetch from "isomorphic-fetch";
 import { API } from "../config";
 
-export const create = (blog, token) => {
+export const createBlog = (blog, token) => {
   return fetch(`${API}/blog`, {
     method: "POST",
     headers: {
