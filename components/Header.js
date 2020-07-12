@@ -43,6 +43,12 @@ const Header = (props) => {
 
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
+            <NavItem>
+              <Link href="/blogs">
+                <NavLink>Blogs</NavLink>
+              </Link>
+            </NavItem>
+
             {!isAuth() && (
               <>
                 <NavItem>
