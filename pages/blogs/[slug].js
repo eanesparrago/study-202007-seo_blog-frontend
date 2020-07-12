@@ -7,7 +7,35 @@ import Layout from "../../components/Layout";
 import { singleBlog } from "../../actions/blog";
 import { API, DOMAIN, APP_NAME } from "../../config";
 
-const SingleBlog = ({ blog }) => {
+const SingleBlog = ({ blog, query }) => {
+  const head = () => (
+    <Head>
+      <title>
+        {blog.title} | {APP_NAME}
+      </title>
+
+      <meta name="description" content={blog.mdesc} />
+      <link rel="canonical" href={`${DOMAIN}/blogs/${query.slug}`} />
+
+      <meta property="og:title" content={`${blog.title} | ${APP_NAME}`} />
+
+      <meta property="og:description" content={blog.mdesc} />
+
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={`${DOMAIN}/blogs/${query.slug}`} />
+      <meta property="og:site_name" content={`${APP_NAME}`} />
+
+      <meta property="og:image" content={`${API}/blogs/${blog.photo}`} />
+      <meta
+        property="og:image:secure_url"
+        content={`${API}/blogs/${blog.photo}`}
+      />
+      <meta property="og:image:type" content="image/jpg" />
+      {/* TODO: Get app id from FB */}
+      <meta property="fb:app_id" content="" />
+    </Head>
+  );
+
   const showBlogCategories = () => {
     return blog.categories.map((category) => (
       <Link key={category._id} href={`/categories/${category.slug}`}>
@@ -26,6 +54,8 @@ const SingleBlog = ({ blog }) => {
 
   return (
     <>
+      {head()}
+
       <Layout>
         <main>
           <article>
@@ -40,7 +70,11 @@ const SingleBlog = ({ blog }) => {
                 </div>
               </section>
 
-              <section>
+              <section className="container">
+                <h1 className="display-2 pb-3 text-center font-weight-bold pt-3">
+                  {blog.title}
+                </h1>
+
                 <p className="lead mt-3 mark">
                   Written by {blog.postedBy.name} | Published{" "}
                   {moment(blog.updatedAt).fromNow()}
@@ -80,7 +114,7 @@ SingleBlog.getInitialProps = ({ query }) => {
     if (data.error) {
       console.log(data.error);
     } else {
-      return { blog: data };
+      return { blog: data, query };
     }
   });
 };
