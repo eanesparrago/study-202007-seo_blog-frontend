@@ -22,7 +22,6 @@ export const listBlogsWithCategotiesAndTags = () => {
     headers: {
       Accept: "application/json",
     },
-    body: blog,
   })
     .then((response) => {
       return response.json();
