@@ -3,7 +3,6 @@ import { useState } from "react";
 
 import Layout from "../../components/Layout";
 import { listBlogsWithCategotiesAndTags } from "../../actions/blog";
-import { API } from "../../config";
 import Card from "../../components/blog/Card";
 
 const Blogs = ({ blogs, categories, tags, size }) => {

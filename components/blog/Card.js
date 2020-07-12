@@ -1,14 +1,13 @@
 import Link from "next/link";
 import renderHTML from "react-render-html";
 import moment from "moment";
+import { API } from "../../config";
 
 const Card = ({ blog }) => {
   const showBlogCategories = () => {
     return blog.categories.map((category) => (
       <Link key={category._id} href={`/categories/${category.slug}`}>
-        <a className="btn btn-primary mr-1 ml-1 mt-3">
-          {category.name}
-        </a>
+        <a className="btn btn-primary mr-1 ml-1 mt-3">{category.name}</a>
       </Link>
     ));
   };
@@ -38,14 +37,22 @@ const Card = ({ blog }) => {
         </p>
       </section>
 
-      <section>
+      <section className="mb-4">
         {showBlogCategories()}
         {showBlogTags()}
-        <br/>
       </section>
 
       <div className="row">
-        <div className="col-md-4">image</div>
+        <div className="col-md-4">
+          <section>
+            <img
+              src={`${API}/blog/photo/${blog.slug}`}
+              alt={`${blog.title}`}
+              className="img img-fluid"
+              style={{ maxHeight: "150px", width: "auto" }}
+            />
+          </section>
+        </div>
 
         <div className="col-md-8">
           <section className="pb-3">
