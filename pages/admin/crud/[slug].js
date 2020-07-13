@@ -1,8 +1,11 @@
 import Layout from "../../../components/Layout";
 import Admin from "../../../components/auth/Admin";
 import BlogUpdate from "../../../components/crud/BlogUpdate";
+import { useRouter } from "next/router";
 
 const UpdateSingleBlog = () => {
+  const router = useRouter();
+
   return (
     <Layout>
       <Admin>
@@ -13,7 +16,7 @@ const UpdateSingleBlog = () => {
             </div>
 
             <div className="col-md-12">
-              <BlogUpdate></BlogUpdate>
+              <BlogUpdate router={router}></BlogUpdate>
             </div>
           </div>
         </div>
