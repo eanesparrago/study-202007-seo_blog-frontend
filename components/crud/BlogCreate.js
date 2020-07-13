@@ -9,8 +9,8 @@ import { getTags } from "../../actions/tag";
 import { createBlog } from "../../actions/blog";
 import { QuillModules, QuillFormats } from "../../helpers/quill";
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const BlogCreate = ({ router }) => {
   const blogFromLs = () => {
