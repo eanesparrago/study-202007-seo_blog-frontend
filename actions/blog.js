@@ -1,4 +1,5 @@
 import fetch from "isomorphic-fetch";
+import queryString from "query-string";
 import { API } from "../config";
 
 export const createBlog = (blog, token) => {
@@ -94,6 +95,20 @@ export const updateBlog = (blog, token, slug) => {
       Authorization: `Bearer ${token}`,
     },
     body: blog,
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const listSearch = (params) => {
+  console.log("search params", params);
+  let query = queryString.stringify(params);
+  console.log("search query", query);
+
+  return fetch(`${API}/blogs/search?${query}`, {
+    method: "GET",
   })
     .then((response) => {
       return response.json();

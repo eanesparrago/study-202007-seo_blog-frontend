@@ -59,7 +59,7 @@ const Category = ({ category, blogs, query }) => {
                 <h1 className="display-4 font-weight-bold">{category.name}</h1>
                 {blogs.map((blog) => (
                   <div key={blog._id}>
-                    <Card  blog={blog}></Card>
+                    <Card blog={blog}></Card>
                     <hr />
                   </div>
                 ))}

@@ -20,6 +20,7 @@ import "nprogress/nprogress.css";
 
 import { APP_NAME } from "../config";
 import { isAuth, signout } from "../actions/auth";
+import Search from "../components/blog/Search";
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -33,7 +34,7 @@ const Header = (props) => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
+    <>
       <Navbar color="light" light expand="md">
         <Link href="/">
           <a className="font-weight-bold">{APP_NAME}</a>
@@ -94,7 +95,9 @@ const Header = (props) => {
           </Nav>
         </Collapse>
       </Navbar>
-    </div>
+
+      <Search></Search>
+    </>
   );
 };
 
