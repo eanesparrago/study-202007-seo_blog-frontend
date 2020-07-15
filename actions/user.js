@@ -37,6 +37,7 @@ export const update = (token, user) => {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
     },
+    body: user,
   })
     .then((response) => {
       return response.json();
