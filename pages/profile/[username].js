@@ -58,14 +58,22 @@ const UserProfile = ({ user, blogs, query }) => {
               <div className="card">
                 <div className="card-body">
                   <h5>{user.name}</h5>
+                  <div className="row">
+                    <div className="col-md-8">
+                      <p className="text-muted">
+                        Joined {moment(user.createdAt).fromNow()}
+                      </p>
+                    </div>
 
-                  <Link href={`/profile/${user.username}`}>
-                    <a>View Profile</a>
-                  </Link>
-
-                  <p className="text-muted">
-                    Joined {moment(user.createdAt).fromNow()}
-                  </p>
+                    <div className="col-md-4">
+                      <img
+                        src={`${API}/user/photo/${user.username}`}
+                        alt="User profile"
+                        className="img img-fluid img-thumbnail mb-3"
+                        style={{ maxHeight: "auto", maxWidth: "100%" }}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
