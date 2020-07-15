@@ -4,7 +4,7 @@ import { listSearch } from "../../actions/blog";
 
 const Search = () => {
   const [values, setValues] = useState({
-    search: undefined,
+    search: "",
     results: [],
     searched: false,
     message: "",
