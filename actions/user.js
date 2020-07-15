@@ -3,11 +3,10 @@ import { API } from "../config";
 
 export const userPublicProfile = (username) => {
   return fetch(`${API}/user/${username}`, {
-    method: "POST",
+    method: "GET",
     headers: {
       Accept: "application/json",
     },
-    body: blog,
   })
     .then((response) => {
       return response.json();
