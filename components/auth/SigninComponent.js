@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { signin, authenticate, isAuth } from "../../actions/auth";
 import Router from "next/router";
+import Link from "next/link";
 
 const SigninComponent = () => {
   const [values, setValues] = useState({
@@ -76,7 +77,15 @@ const SigninComponent = () => {
     );
   };
 
-  return <>{signupForm()}</>;
+  return (
+    <>
+      {signupForm()}
+
+      <Link href="/auth/password/forgot">
+        <a className="btn btn-outline-danger sm">Reset Password</a>
+      </Link>
+    </>
+  );
 };
 
 export default SigninComponent;
