@@ -8,6 +8,7 @@ import Layout from "../../components/Layout";
 import { singleBlog, listRelated } from "../../actions/blog";
 import { API, DOMAIN, APP_NAME } from "../../config";
 import SmallCard from "../../components/blog/SmallCard";
+import DisqusThread from "../../components/DisqusThread";
 
 const SingleBlog = ({ blog, query }) => {
   const head = () => (
@@ -80,6 +81,16 @@ const SingleBlog = ({ blog, query }) => {
     ));
   };
 
+  const showComments = () => (
+    <div>
+      <DisqusThread
+        id={blog.id}
+        title={blog.title}
+        path={`/blog/${blog.slug}`}
+      ></DisqusThread>
+    </div>
+  );
+
   return (
     <>
       {head()}
@@ -132,8 +143,8 @@ const SingleBlog = ({ blog, query }) => {
               <div className="row">{showRelatedBlogs()}</div>
             </div>
 
-            <div className="container pb-5">
-              <p>TODO: Show comments</p>
+            <div className="container pb-5 pt-5">
+              <p>{showComments()}</p>
             </div>
           </article>
         </main>
