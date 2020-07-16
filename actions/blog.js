@@ -69,8 +69,14 @@ export const listRelated = (blog) => {
     .catch((err) => console.log(err));
 };
 
-export const list = () => {
-  return fetch(`${API}/blogs`, {
+export const list = (username) => {
+  let listBlogsEndpoint = `${API}/blogs`;
+
+  if (username) {
+    listBlogsEndpoint = `${API}/${username}/blogs`;
+  }
+
+  return fetch(listBlogsEndpoint, {
     method: "GET",
   })
     .then((response) => {
@@ -80,7 +86,13 @@ export const list = () => {
 };
 
 export const removeBlog = (slug, token) => {
-  return fetch(`${API}/blog/${slug}`, {
+  let deleteBlogEndpoint = `${API}/user/blog/${slug}`;
+
+  if (isAuth() && isAuth().role === 1) {
+    deleteBlogEndpoint = `${API}/blog/${slug}`;
+  }
+
+  return fetch(deleteBlogEndpoint, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
@@ -95,7 +107,13 @@ export const removeBlog = (slug, token) => {
 };
 
 export const updateBlog = (blog, token, slug) => {
-  return fetch(`${API}/blog/${slug}`, {
+  let updateBlogEndpoint = `${API}/user/blog/${slug}`;
+
+  if (isAuth() && isAuth().role === 1) {
+    updateBlogEndpoint = `${API}/blog/${slug}`;
+  }
+
+  return fetch(updateBlogEndpoint, {
     method: "PUT",
     headers: {
       Accept: "application/json",
