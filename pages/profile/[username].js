@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { userPublicProfile } from "../../actions/user";
 import { API, DOMAIN, APP_NAME } from "../../config";
+import ContactForm from "../../components/form/ContactForm";
 
 const UserProfile = ({ user, blogs, query }) => {
   const head = () => (
@@ -105,7 +106,7 @@ const UserProfile = ({ user, blogs, query }) => {
 
                   <br />
 
-                  <p>TODO: Contact form</p>
+                  <ContactForm authorEmail={user.email}></ContactForm>
                 </div>
               </div>
             </div>
